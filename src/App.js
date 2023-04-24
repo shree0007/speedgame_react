@@ -1,6 +1,7 @@
 import Circle from './Circle';
 import './App.css';
 import React, { Component } from 'react';
+import Modal from './Modal';
 
 
 class App extends Component {
@@ -37,7 +38,7 @@ class App extends Component {
           </div>
 
         </div>
-
+        <Modal />
       </div>
     );
   }
