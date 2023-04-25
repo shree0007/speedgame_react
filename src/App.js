@@ -68,9 +68,7 @@ class App extends Component {
           </div>
 
         </div>
-        {this.state.showModal && <Modal score={this.state.score} message={
-          this.state.score <= 50 ? `You scored only ${this.state.score}, better luck next time` : this.state.score <= 90 ? `You scored ${this.state.score}, you are doing great, keep pushing` : `You scored ${this.state.score}, Congratulations! you are the winner :)`
-        } close={this.modalHandler} />}
+        {this.state.showModal && <Modal score={this.state.score} close={this.modalHandler} />}
       </div>
     );
   }
