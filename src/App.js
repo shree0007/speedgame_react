@@ -1,22 +1,52 @@
-import Circle from './Circle';
+import Circle from './components/Circle';
 import './App.css';
 import React, { Component } from 'react';
-import Modal from './Modal';
+import Modal from './components/Modal';
 
 
 class App extends Component {
 
   state = {
+    circles: [1, 2, 3, 4],
     score: 0,
-    counter: 0,
-    circles: [1, 2, 3, 4]
+    current: 0,
+    pace: 1000,
+    rounds: 0,
+    showModal: false,
+    startGame: false
+
+
   }
+
+  startHandler = () => {
+    this.setState({
+      startGame: true,
+    });
+    this.timer = setInterval(this.randomNumber, this.state.pace);
+
+  }
+
+
+
   clickHandler = () => {
 
     this.setState({
-      score: this.state.score + 10
+      score: (this.state.score + 10)
     })
 
+  }
+
+  endHandler = () => {
+    clearInterval(this.timer);
+    this.setState({
+      timer: this.timer,
+      showModal: true,
+      rounds: 0
+    });
+  }
+
+  modalHandler = () => {
+    window.location.reload();
   }
 
   render() {
@@ -33,12 +63,14 @@ class App extends Component {
             {this.state.circles.map(() => (<Circle click={this.clickHandler} />))}
           </div>
           <div className='buttons'>
-            <button>START</button>
-            <button>END</button>
+            <button onClick={this.startHandler} disabled={this.timer}>START</button>
+            <button onClick={this.endHandler} disabled={!this.timer} >END</button>
           </div>
 
         </div>
-        <Modal />
+        {this.state.showModal && <Modal score={this.state.score} message={
+          this.state.score <= 50 ? `You scored only ${this.state.score}, better luck next time` : this.state.score <= 90 ? `You scored ${this.state.score}, you are doing great, keep pushing` : `You scored ${this.state.score}, Congratulations! you are the winner :)`
+        } close={this.modalHandler} />}
       </div>
     );
   }

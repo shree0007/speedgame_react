@@ -28,3 +28,11 @@
     width: 60px;
     border: solid 2px gray;
 }
+
+.modal h2 {
+    text-align: center;
+}
+
+.modal p {
+    color: black;
+}
