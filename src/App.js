@@ -3,7 +3,9 @@ import './App.css';
 import React, { Component } from 'react';
 import Modal from './components/Modal';
 
-
+import audioStart from './assets/audio/audioStart.mp3';
+import audioClick from './assets/audio/audioClick.mp3';
+import audioEnd from './assets/audio/audioEnd.mp3';
 
 
 const getRndInteger = (min, max) => {
@@ -22,14 +24,16 @@ class App extends Component {
     showModal: false,
     startGame: false,
     timer: 0,
-
+    audioStart: new Audio(audioStart),
+    audioClick: new Audio(audioClick),
+    audioEnd: new Audio(audioEnd)
 
 
   }
 
 
   randomNumber = () => {
-
+    this.state.audioStart.play();
     let nextActive;
 
     do {
@@ -48,7 +52,7 @@ class App extends Component {
 
 
   startHandler = () => {
-
+    this.state.audioStart.play();
     this.randomNumber()
     this.setState({
       startGame: true,
@@ -60,7 +64,7 @@ class App extends Component {
 
 
   clickHandler = (num) => {
-
+    this.state.audioClick.play();
     if (this.state.current !== num) {
       return this.endHandler()
     }
@@ -71,7 +75,8 @@ class App extends Component {
   }
 
   endHandler = () => {
-
+    this.state.audioStart.pause();
+    this.state.audioEnd.play();
     this.setState({
       timer: clearTimeout(this.state.timer),
       showModal: true,
