@@ -4,6 +4,13 @@ import React, { Component } from 'react';
 import Modal from './components/Modal';
 
 
+
+
+const getRndInteger = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 class App extends Component {
 
   state = {
@@ -13,23 +20,50 @@ class App extends Component {
     pace: 1000,
     rounds: 0,
     showModal: false,
-    startGame: false
+    startGame: false,
+    timer: 0,
+
 
 
   }
 
+
+  randomNumber = () => {
+
+    let nextActive;
+
+    do {
+      nextActive = getRndInteger(1, 4)
+    } while (this.state.current === nextActive)
+
+
+    this.setState({
+      current: nextActive,
+      pace: this.state.pace * 0.98,
+      rounds: this.state.rounds + 1,
+      timer: setTimeout(this.randomNumber, this.state.pace)
+
+    })
+  }
+
+
   startHandler = () => {
+
+    this.randomNumber()
     this.setState({
       startGame: true,
     });
-    this.timer = setInterval(this.randomNumber, this.state.pace);
+    // this.timer = setInterval(this.randomNumber, this.state.pace);
 
   }
 
 
 
-  clickHandler = () => {
+  clickHandler = (num) => {
 
+    if (this.state.current !== num) {
+      return this.endHandler()
+    }
     this.setState({
       score: (this.state.score + 10)
     })
@@ -37,9 +71,9 @@ class App extends Component {
   }
 
   endHandler = () => {
-    clearInterval(this.timer);
+
     this.setState({
-      timer: this.timer,
+      timer: clearTimeout(this.state.timer),
       showModal: true,
       rounds: 0
     });
@@ -59,16 +93,24 @@ class App extends Component {
           <div>
             <p>SCORE: <span>{this.state.score}</span></p>
           </div>
+
           <div className='circles'>
-            {this.state.circles.map(() => (<Circle click={this.clickHandler} />))}
+            {this.state.circles.map((circle) => (<Circle
+              click={() => this.clickHandler(circle)}
+              active={this.state.current === circle} />))}
           </div>
+
+
+
           <div className='buttons'>
-            <button onClick={this.startHandler} disabled={this.timer}>START</button>
-            <button onClick={this.endHandler} disabled={!this.timer} >END</button>
+            <button className={`${this.state.timer ? 'display' : ''}`} onClick={this.startHandler}>START</button>
+            <button className={`${!this.state.timer ? 'display' : ''}`} onClick={this.endHandler}>END</button>
           </div>
 
         </div>
-        {this.state.showModal && <Modal score={this.state.score} close={this.modalHandler} />}
+        {this.state.showModal && <Modal score={this.state.score} message={
+          this.state.score <= 50 ? `You scored only ${this.state.score}, better luck next time` : this.state.score <= 90 ? `You scored ${this.state.score}, you are doing great, keep pushing` : `You scored ${this.state.score}, Congratulations! you are the winner :)`
+        } close={this.modalHandler} />}
       </div>
     );
   }

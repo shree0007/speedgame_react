@@ -4,5 +4,11 @@
     width: 200px;
     height: 200px;
     margin: 1rem;
+    cursor: pointer;
 
+}
+
+.active {
+    /* background-color: yellow; */
+    background: url(/src/assets/car.jpg) no-repeat center center/cover;
 }
