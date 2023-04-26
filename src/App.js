@@ -51,6 +51,7 @@ class App extends Component {
     })
 
     if (this.state.rounds >= 3) {
+
       return this.endHandler()
     }
 
@@ -92,6 +93,16 @@ class App extends Component {
 
   modalHandler = () => {
     window.location.reload();
+    // this.setState({
+    //   timer: 0,
+    //   score: 0,
+    //   current: 0,
+    //   rounds: 0,
+    //   showModal: false,
+
+    // });
+
+
   }
 
   render() {
