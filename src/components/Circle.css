@@ -1,5 +1,4 @@
 .circle {
-    background-color: rgb(23, 174, 174);
     border-radius: 50%;
     width: 200px;
     height: 200px;
@@ -8,7 +7,21 @@
 
 }
 
+.circle:nth-child(1) {
+    background-color: brown;
+}
 
+.circle:nth-child(2) {
+    background-color: orange;
+}
+
+.circle:nth-child(3) {
+    background-color: green;
+}
+
+.circle:nth-child(4) {
+    background-color: yellow;
+}
 
 .active {
     background: url(/src/assets/car.jpg) no-repeat center center/cover;
