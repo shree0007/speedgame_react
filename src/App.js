@@ -24,6 +24,7 @@ class App extends Component {
     showModal: false,
     startGame: false,
     timer: 0,
+    click: false,
     audioStart: new Audio(audioStart),
     audioClick: new Audio(audioClick),
     audioEnd: new Audio(audioEnd)
@@ -48,6 +49,11 @@ class App extends Component {
       timer: setTimeout(this.randomNumber, this.state.pace)
 
     })
+
+    if (this.state.rounds >= 3) {
+      return this.endHandler()
+    }
+
   }
 
 
@@ -56,8 +62,8 @@ class App extends Component {
     this.randomNumber()
     this.setState({
       startGame: true,
+      click: true
     });
-    // this.timer = setInterval(this.randomNumber, this.state.pace);
 
   }
 
@@ -101,6 +107,7 @@ class App extends Component {
 
           <div className='circles'>
             {this.state.circles.map((circle) => (<Circle
+              pointer={this.state.click}
               click={() => this.clickHandler(circle)}
               active={this.state.current === circle} />))}
           </div>

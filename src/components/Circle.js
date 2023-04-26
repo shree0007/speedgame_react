@@ -3,7 +3,8 @@ import './Circle.css';
 
 const Circle = (props) => {
     return (
-        <div className={`circle ${props.active ? 'active' : ''}`} onClick={props.click}>
+        <div className={`circle ${props.active ? 'active' : ''}`}
+            style={{ pointerEvents: props.pointer ? 'auto' : 'none' }} onClick={props.click}>
 
         </div>
     );
