@@ -32,13 +32,17 @@ class App extends Component {
 
   }
 
-
   randomNumber = () => {
     this.state.audioStart.play();
+    if (this.state.rounds >= 3) {
+
+      return this.endHandler()
+    }
+
     let nextActive;
 
     do {
-      nextActive = getRndInteger(1, 4)
+      nextActive = getRndInteger(1, this.state.circles.length)
     } while (this.state.current === nextActive)
 
 
@@ -49,14 +53,9 @@ class App extends Component {
       timer: setTimeout(this.randomNumber, this.state.pace)
 
     })
-
-    if (this.state.rounds >= 3) {
-
-      return this.endHandler()
-    }
+    // OR this.timer=setTimeout(this.randomNumber, this.state.pace)
 
   }
-
 
   startHandler = () => {
     this.state.audioStart.play();
@@ -68,15 +67,14 @@ class App extends Component {
 
   }
 
-
-
   clickHandler = (num) => {
     this.state.audioClick.play();
     if (this.state.current !== num) {
       return this.endHandler()
     }
     this.setState({
-      score: (this.state.score + 10)
+      score: this.state.score + 10,
+      rounds: this.state.rounds - 1
     })
 
   }
@@ -92,15 +90,16 @@ class App extends Component {
   }
 
   modalHandler = () => {
-    window.location.reload();
-    // this.setState({
-    //   timer: 0,
-    //   score: 0,
-    //   current: 0,
-    //   rounds: 0,
-    //   showModal: false,
-
-    // });
+    // window.location.reload();
+    this.setState({
+      pace: 1000,
+      score: 0,
+      current: 0,
+      rounds: 0,
+      showModal: false,
+      startGame: false,
+      click: false
+    });
 
 
   }
@@ -118,12 +117,11 @@ class App extends Component {
 
           <div className='circles'>
             {this.state.circles.map((circle) => (<Circle
+              key={circle}
               pointer={this.state.click}
               click={() => this.clickHandler(circle)}
               active={this.state.current === circle} />))}
           </div>
-
-
 
           <div className='buttons'>
             <button className={`${this.state.timer ? 'display' : ''}`} onClick={this.startHandler}>START</button>
@@ -132,7 +130,7 @@ class App extends Component {
 
         </div>
         {this.state.showModal && <Modal score={this.state.score} message={
-          this.state.score <= 50 ? `You scored only ${this.state.score}, better luck next time` : this.state.score <= 90 ? `You scored ${this.state.score}, you are doing great, keep pushing` : `You scored ${this.state.score}, Congratulations! you are the winner :)`
+          this.state.score <= 50 ? `You scored only ${this.state.score}, better luck next time :(` : this.state.score <= 90 ? `You scored ${this.state.score}, you are doing great, keep pushing !` : `You scored ${this.state.score}, Congratulations! you are high scorer :)`
         } close={this.modalHandler} />}
       </div>
     );
