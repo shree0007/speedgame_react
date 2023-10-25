@@ -1,5 +1,6 @@
 # PROJECT-SPEED GAME
-* Create a speed game using React JS.
+* Speed game using React JS.
+![Alt text](speedgame_screenshot.png)
 
 ## Minimum Requirements:
 * Circles are not clickable  before game starts
